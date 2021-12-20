@@ -41,14 +41,30 @@ export const Table = () => {
     setValue(value);
   };
 
+  const saveAffairsInStorage = (key, data) => {
+    const currentStorageValue = window.localStorage.getItem(key);
+    console.log(currentStorageValue);
+    const newStorageValue =
+      currentStorageValue !== null
+        ? [...JSON.parse(currentStorageValue), data]
+        : [data];
+    window.localStorage.setItem(key, JSON.stringify(newStorageValue));
+  };
+
+  const clearStorage = () => {
+    window.localStorage.clear();
+  };
+
   const handleAffairClick = (event) => {
     const { innerHTML: value } = event.target;
     dispatch(affairsActions.doneAffair(value));
+    saveAffairsInStorage("done", value);
   };
 
   const handleInputSubmit = (event) => {
     event.preventDefault();
     dispatch(affairsActions.setAffairs(value));
+    saveAffairsInStorage("todo", value);
     setValue(null);
   };
 
@@ -64,6 +80,7 @@ export const Table = () => {
 
   const handleButtonClear = (event) => {
     event.preventDefault();
+    clearStorage();
     dispatch(affairsActions.clear());
   };
 

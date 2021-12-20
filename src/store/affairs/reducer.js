@@ -1,8 +1,18 @@
 import { affairsActionTypes } from "./actions";
 
+const storageAffairs = window.localStorage;
+console.log(storageAffairs);
+
+const parseToDoAffair =
+  storageAffairs.todo != null ? JSON.parse(storageAffairs.todo) : [];
+console.log(parseToDoAffair);
+const parseDoneAffair =
+  storageAffairs.done != null ? JSON.parse(storageAffairs.done) : [];
+console.log(parseDoneAffair);
+
 const initialState = {
-  todo: [],
-  done: [],
+  todo: [...parseToDoAffair],
+  done: [...parseDoneAffair],
 };
 
 export const affairsReducer = (state = initialState, action) => {
